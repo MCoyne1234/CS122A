@@ -3,6 +3,9 @@
 
 enum States{START, B0, B1, B2} state;
 enum States2{START2, ON1, ON2, OFF1, OFF2} state2;
+	
+int light1 = 0x00;
+int light2 = 0x00;
 
 void Tick() {
 	switch(state) { //state transitions
@@ -25,13 +28,16 @@ void Tick() {
 			// PORTB = 0x00;
 		break;
 		case B0:
-			PORTB = ((PORTB & 0x08) | 0x01);
+			//PORTB = ((PORTB & 0x08) | 0x01);
+			light1 = 0x01;
 		break;
 		case B1:
-			PORTB = ((PORTB & 0x08) | 0x02);
+			//PORTB = ((PORTB & 0x08) | 0x02);
+			light1 = 0x02;
 		break;
 		case B2:
-			PORTB = ((PORTB & 0x08) | 0x04);
+			//PORTB = ((PORTB & 0x08) | 0x04);
+			light1 = 0x04;
 		break;
 	}
 }
@@ -60,16 +66,20 @@ void Tick2() {
 			//PORTB = 0x00;
 		break;
 		case ON1:
-			PORTB = PORTB | 0x08;
+			//PORTB = PORTB | 0x08;
+			light2 = 0x08;
 		break;
 		case ON2:
-			PORTB = PORTB | 0x08;
+			//PORTB = PORTB | 0x08;
+			light2 = 0x08;
 		break;
 		case OFF1:
-			PORTB = PORTB & 0xF7;
+			//PORTB = PORTB & 0xF7; // 1111 0111
+			light2 = 0x00;
 		break;
 		case OFF2:
-			PORTB = PORTB & 0xF7;
+			//PORTB = PORTB & 0xF7;
+			light2 = 0x00;
 		break;
 	}
 }
@@ -87,6 +97,7 @@ int main(void) {
     while (1) {
 		Tick();
 		Tick2();
+		PORTB = light1 + light2;
 		while(!TimerFlag);
 		TimerFlag = 0;		
     }
