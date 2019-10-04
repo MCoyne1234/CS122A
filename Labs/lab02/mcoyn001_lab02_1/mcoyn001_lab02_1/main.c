@@ -11,25 +11,28 @@
 #include <timer.h>
 #include <stdio.h>
 #include <scheduler.h>
-//#include <lcd.h>
+#include "usart_ATmega1284.h"
 #include "io.c"
 
 
-enum States{ START, ONE, TWO, THREE};
+enum States{ START, LISTEN, SEND, RECIEVE};
 enum States2{ START2, ON, OFF};
-int button;
-unsigned int score;
+char dataSend, dataRec, master;
+
 
 int Tick(int state){
     
     switch(state){
         case START:
         break;
-        case ONE:
+        case LISTEN:
+            //USART_
         break;
-        case TWO:
+        case SEND:
+            USART_Send(dataSend, 0);
         break;
-        case THREE:
+        case RECIEVE:
+            dataRec = USART_Receive(0);
         break;
         default:
         break;
@@ -37,16 +40,22 @@ int Tick(int state){
     
     switch(state){
         case START:
-        state = ONE;
+            state = LISTEN;
         break;
-        case ONE:
-        state = TWO;
+        case LISTEN:
+            if(USART_IsSendReady(0)){
+                state = SEND;
+            }else if(USART_HasReceived(0)){
+                state = RECIEVE;
+            }        
         break;
-        case TWO:
-        state = THREE;
+        case SEND:
+            if(USART_HasTransmitted(0)){
+                state = LISTEN;
+            }
         break;
-        case THREE:
-        state = START;
+        case RECIEVE:
+            state = LISTEN;
         break;
         default:break;
     }
@@ -59,6 +68,12 @@ int Tick2(int state){
         case START2:
         break;
         case ON:
+            if(master){
+                
+                dataSend = P
+            }else(){
+                
+            }
         break;
         case OFF:
         break;
@@ -71,33 +86,29 @@ int Tick2(int state){
         state = ON;
         break;
         case ON:
-        state = OFF;
+        //state = OFF;
         break;
         case OFF:
-        state = ON;
+        //state = ON;
         break;
         default:break;
     }
     return state;
 }
+
 int main(void)
 {
-    DDRA = 0xFF; PORTA = 0x00;
+    DDRA = 0x00; PORTA = 0x00;
     DDRB = 0xFF; PORTB = 0x00;
     DDRC = 0xFF; PORTC = 0x00;
-    DDRD = 0xFF; PORTD = 0x00;
+    DDRD = 0xFA; PORTD = 0x00;
     
-    TimerSet(500);
-    TimerOn();
+    initUSART(0);    
+    USART_Flush(0);
     
-    LCD_init();
-    LCD_ClearScreen();
-    LCD_Cursor(1);
-    //LCD_WriteData(48 + score);
-    LCD_DisplayString(1, "Hello Wor");
-    while(1);
     unsigned long t1 = 1;
     unsigned long t2 = 2;
+    
     
     static task task1, task2;
     task *tasks[] = { &task1, &task2};
@@ -127,12 +138,9 @@ int main(void)
             }
             tasks[i]->elapsedTime += 1;
         }
-        button = 0;
+
         while(!TimerFlag){
-            butt = ( !(PINA & 0x04) );
-            if(butt){
-                button = 1;
-            }
+            master = ( !(PINA & 0x00) );
         };
         TimerFlag = 0;
         //PORTC = score;
