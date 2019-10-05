@@ -29,7 +29,9 @@ int Tick(int state){
             //USART_
         break;
         case SEND:
-            USART_Send(dataSend, 0);
+            if(USART_IsSendReady(0)){
+                USART_Send(dataSend, 0);
+            }            
         break;
         case RECIEVE:
             dataRec = USART_Receive(0);
@@ -43,7 +45,7 @@ int Tick(int state){
             state = LISTEN;
         break;
         case LISTEN:
-            if(USART_IsSendReady(0)){
+            if(master){
                 state = SEND;
             }else if(USART_HasReceived(0)){
                 state = RECIEVE;
