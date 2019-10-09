@@ -1,5 +1,5 @@
 /*
- * mcoyn001_lab02_1.c
+ * mcoyn001_xfern_lab02_2.c
  *
  * Created: 10/4/2019 1:18:28 PM
  * Author : Administrator
@@ -15,21 +15,19 @@
 #include "io.c"
 
 
-enum States{ START, LISTEN, SEND };
-enum States2{ START2, RECIEVE };
+enum States{ START, SEND };
+enum States2{ START2, RECEIVE };
 enum States3{ START3, ON};
 char dataSend, dataRec, master, mask;
-
+int countNoMess, noMessMax;
 
 int Tick(int state){
     
     switch(state){
         case START:
         break;
-        case LISTEN:
-            PORTA = ( (dataSend & ~mask) | ( (master << 0) & mask) );
-        break;
         case SEND:
+            PORTA = ( (dataSend & ~mask) | ( (master << 0) & mask) );
             if(USART_IsSendReady(1)){
                 USART_Send(dataSend, 1);
             }            
@@ -40,16 +38,11 @@ int Tick(int state){
     
     switch(state){
         case START:
-            state = LISTEN;
-        break;
-        case LISTEN:
-            if(master){
-                state = SEND;
-            }       
+                state = SEND;       
         break;
         case SEND:
             if(USART_HasTransmitted(1)){
-                state = LISTEN;
+                // don't think I actually need this right now.
             }
         break;
         default:break;
@@ -62,14 +55,20 @@ int Tick2(int state){
     switch(state){
         case START2:
         break;
-        case RECIEVE:
-            if(master != 0x01){
+        case RECEIVE:
                 if(USART_HasReceived(0)){
+                    master = 0x00;
+                    countNoMess = 0;
                     dataRec = USART_Receive(0);
                     USART_Flush(0);
                     PORTA = ( dataRec & 0x0E );
-                }
-            }
+                }else{
+                    ++countNoMess;
+                    if(countNoMess >= noMessMax){
+                        master = 0xFF;
+                        countNoMess = 0;
+                    }
+                }                    
         break;
         default:
         break;
@@ -77,9 +76,9 @@ int Tick2(int state){
     
     switch(state){
         case START2:
-            state = RECIEVE;
+            state = RECEIVE;
         break;
-        case RECIEVE:           
+        case RECEIVE:           
         break;
         default:break;
     }
@@ -128,6 +127,9 @@ int main(void)
     TimerOn();
     
     mask = 0x01;
+    master = 0x00;
+    countNoMess = 0;
+    noMessMax = 150;
     
     unsigned long t1 = 2;
     unsigned long t2 = 2;
@@ -171,7 +173,6 @@ int main(void)
 
         while(!TimerFlag){}
         TimerFlag = 0;
-        master = (PINB & 0x01);
     }
     return 0;
 }
