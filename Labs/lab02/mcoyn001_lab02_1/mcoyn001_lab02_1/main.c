@@ -3,7 +3,15 @@
  *
  * Created: 10/4/2019 1:18:28 PM
  * Author : Administrator
- */ 
+ * 
+ *    Partner(s) Name & E-mail: Matthew Coyne mcoyn001@ucr.edu
+ *    Lab Section: 021
+ *    Assignment: Lab #2  Exercise #1 
+ *    Exercise Description: USART Lab with hardwired leader/follower.
+ *    
+ *    I acknowledge all content contained herein, excluding template 
+ *     or example code, is my own original work.
+ */
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
