@@ -26,7 +26,7 @@
 enum States{ START, LISTEN, SEND };
 enum States2{ START2, RECIEVE };
 enum States3{ START3, ON};
-char dataSend, dataRec, master, mask;
+char data, dataRec, master, mask;
 
 
 int Tick(int state){
@@ -36,7 +36,8 @@ int Tick(int state){
         break;
         case LISTEN:
         break;
-        case SEND:           
+        case SEND:    
+            if(master) SPI_MasterTransmit(data);       
         break;
         default:
         break;
@@ -44,11 +45,12 @@ int Tick(int state){
     
     switch(state){
         case START:
-            state = LISTEN;
+            state = SEND;
         break;
         case LISTEN:  
         break;
         case SEND:
+            //state = LISTEN;
         break;
         default:break;
     }
@@ -61,6 +63,10 @@ int Tick2(int state){
         case START2:
         break;
         case RECIEVE:
+            if(!master){
+                PORTA = SPI_ServantReceive();//receivedData;
+                //PORTA = ( (PORTA & ~mask) | ( (receivedData) & mask) );
+            }            
         break;
         default:
         break;
@@ -68,6 +74,7 @@ int Tick2(int state){
     
     switch(state){
         case START2:
+            state = RECIEVE;
         break;
         case RECIEVE:           
         break;
@@ -83,7 +90,9 @@ int Tick3(int state){
         break;
         case ON:
             if(master){
-                dataSend = ~dataSend;
+                if(data == 0x10) data = 0x00;
+                else data = 0x10;                               
+                PORTA = ( (PORTA & ~mask) | ( (data) & mask) );
             }
         break;
         default:
@@ -104,21 +113,21 @@ int Tick3(int state){
 
 int main(void)
 {
-    DDRA = 0xFF; PORTA = 0x00;
-    DDRB = 0xFE; PORTB = 0x00;
-    DDRC = 0xFF; PORTC = 0x00;
-    DDRD = 0xFA; PORTD = 0x00;
-
-    SPI_MasterInit();
+    DDRA = 0xFF; PORTA = 0x10;
+    //DDRB = 0xFE; PORTB = 0x00;
+    DDRC = 0xF0; PORTC = 0x00;
+    DDRD = 0xFF; PORTD = 0x00;
     
-    TimerSet(10);
+    TimerSet(2);
     TimerOn();
     
-    mask = 0x01;
+    //sei();
     
-    unsigned long t1 = 2;
-    unsigned long t2 = 2;
-    unsigned long t3 = 50;
+    mask = 0x10;
+    
+    unsigned long t1 = 50;
+    unsigned long t2 = 3;
+    unsigned long t3 = 250;
     
     static task task1, task2, task3;
     task *tasks[] = { &task3, &task1, &task2};
@@ -139,8 +148,14 @@ int main(void)
     task3.elapsedTime = t3; // Task current elapsed time.
     task3.TickFct = &Tick3; // Function pointer for the tick.
     
-    dataSend = 0;
+    data = 0;
     dataRec = 0;
+    
+    if(PINB & 0x01) master = 0xFF;
+    else master = 0x00;
+    
+    if(master) SPI_MasterInit();
+    else SPI_ServantInit();
     
     unsigned short i = 0; // Scheduler for-loop iterator
     while(1){

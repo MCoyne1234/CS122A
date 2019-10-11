@@ -1,12 +1,19 @@
 #ifndef SPI_LIBRARY
 #define SPI_LIBRARY
 
-#define ISR_DATA PORTD
+//#define ISR_DATA PORTD
+#define DDR_SPI DDRB
+#define DD_SS PORTB4 
+#define DD_MOSI PORTB5
+#define DD_MISO PORTB6
+#define DD_SCK PORTB7
 
- //Straight from the datasheet 
+ //Straight from the datasheet
+volatile unsigned char receivedData;
+ 
 void SPI_MasterInit(void){
 	/* Set MOSI and SCK output, all others input */
-	DDR_SPI = (1<<DD_MOSI) | (1<<DD_SCK);
+	DDR_SPI = (1<<DD_SS)|(1<<DD_MOSI) | (1<<DD_SCK);
 	
 	// Enable SPI, Master, set clock rate fck/16
 	SPCR = (1<<SPE) | (1<<MSTR) | (1<<SPR0);
@@ -38,7 +45,7 @@ return SPDR;
 }
 
 ISR(SPI_STC_vect){
-  ISR_DATA = SPI_ServantReceive();
+  receivedData = SPI_ServantReceive();
 }
 
 #endif // SPI_LIBRARY
