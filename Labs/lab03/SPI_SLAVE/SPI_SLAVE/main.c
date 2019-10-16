@@ -38,7 +38,7 @@ int main(void)
     spi_init_slave();                             //Initialize slave SPI
     unsigned char data, buffer[10];
     DDRA  = 0xFF;                                 //Initialize PORTA as INPUT
-    PORTA = 0xAA;                                 //Enable Pull-Up Resistors
+    PORTA = 0xFF;                                 //Enable Pull-Up Resistors
     
     char doot = 0x10; 
     while(1)

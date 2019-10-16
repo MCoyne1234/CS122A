@@ -51,18 +51,18 @@ int main(void)
 {
     sei();
     spi_init_master();                  //Initialize SPI Master
-    DDRA = 0xFF; PORTA = 0x00;
+    DDRA = 0xFF; PORTA = 0xFF;
     DDRD |= 0x01;                       //PD0 as Output
     
     unsigned char data;                 //Received data stored here
     uint8_t x = 0;                      //Counter value which is sent
-    char doot = 0x10;
+    char doot = 0xFF;
     
     while(1)
     {
-        if( doot == 0x10 ) doot = 0x00;
-        else doot = 0x10;
-        PORTA = doot;
+        if( doot == 0xFF ) doot = 0x00;
+        else doot = 0xFF;
+        //PORTA = doot;
         data = 0x00;                    //Reset ACK in "data"
         data = spi_tranceiver(doot);     //Send "x", receive ACK in "data"
         /*if(data == ACK) {               //Check condition
@@ -74,7 +74,7 @@ int main(void)
             //led_blink(LONG_TIME);
         }
         */
-        _delay_ms(500);                 //Wait
+        _delay_ms(150);                 //Wait
     }
 }
 

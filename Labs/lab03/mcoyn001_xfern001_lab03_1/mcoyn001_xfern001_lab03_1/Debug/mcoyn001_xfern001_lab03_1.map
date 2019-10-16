@@ -1,5 +1,7 @@
 Archive member included to satisfy reference by file (symbol)
 
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_udivmodqi4.o)
+                              main.o (__udivmodqi4)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_udivmodsi4.o)
                               main.o (__udivmodsi4)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
@@ -24,6 +26,7 @@ receivedData        0x1               main.o
 t_count             0x1               main.o
 data                0x1               main.o
 key                 0x1               main.o
+trigger             0x1               main.o
 speed               0x1               main.o
 t_max               0x1               main.o
 slave               0x1               main.o
@@ -44,12 +47,26 @@ Discarded input sections
  .text.TimerISR
                 0x00000000        0x8 main.o
  .text.findGCD  0x00000000       0x5a main.o
- .data.speeds   0x00000000        0x6 main.o
- .data.paterns  0x00000000        0x8 main.o
+ .data.patterns
+                0x00000000        0x8 main.o
  .data.p4       0x00000000       0x12 main.o
  .data.p3       0x00000000        0xe main.o
  .data.p2       0x00000000        0x2 main.o
  .data.p1       0x00000000        0x2 main.o
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_udivmodqi4.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_udivmodqi4.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_udivmodqi4.o)
+ .text.libgcc.mul
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_udivmodqi4.o)
+ .text.libgcc   0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_udivmodqi4.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_udivmodqi4.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_udivmodqi4.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_udivmodqi4.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_udivmodqi4.o)
  .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_udivmodsi4.o)
  .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_udivmodsi4.o)
  .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_udivmodsi4.o)
@@ -353,69 +370,72 @@ END GROUP
                 0x000000ee                __vector_20
                 0x000000f0                . = ALIGN (0x2)
  *(.text.*)
+ .text.Tick2    0x000000f0       0x22 main.o
+                0x000000f0                Tick2
  .text.TimerSet
-                0x000000f0       0x22 main.o
-                0x000000f0                TimerSet
- .text.TimerOn  0x00000112       0x48 main.o
-                0x00000112                TimerOn
+                0x00000112       0x22 main.o
+                0x00000112                TimerSet
+ .text.TimerOn  0x00000134       0x48 main.o
+                0x00000134                TimerOn
  .text.__vector_13
-                0x0000015a       0x78 main.o
-                0x0000015a                __vector_13
+                0x0000017c       0x78 main.o
+                0x0000017c                __vector_13
  .text.delay_ms
-                0x000001d2       0x26 main.o
-                0x000001d2                delay_ms
+                0x000001f4       0x26 main.o
+                0x000001f4                delay_ms
  .text.LCD_WriteCommand
-                0x000001f8       0x12 main.o
-                0x000001f8                LCD_WriteCommand
+                0x0000021a       0x12 main.o
+                0x0000021a                LCD_WriteCommand
  .text.LCD_ClearScreen
-                0x0000020a        0x6 main.o
-                0x0000020a                LCD_ClearScreen
+                0x0000022c        0x6 main.o
+                0x0000022c                LCD_ClearScreen
  .text.LCD_Cursor
-                0x00000210       0x10 main.o
-                0x00000210                LCD_Cursor
+                0x00000232       0x10 main.o
+                0x00000232                LCD_Cursor
  .text.LCD_init
-                0x00000220       0x1e main.o
-                0x00000220                LCD_init
+                0x00000242       0x1e main.o
+                0x00000242                LCD_init
  .text.LCD_WriteData
-                0x0000023e       0x12 main.o
-                0x0000023e                LCD_WriteData
+                0x00000260       0x12 main.o
+                0x00000260                LCD_WriteData
  .text.LCD_DisplayString
-                0x00000250       0x32 main.o
-                0x00000250                LCD_DisplayString
- .text.Tick4    0x00000282       0xee main.o
-                0x00000282                Tick4
+                0x00000272       0x32 main.o
+                0x00000272                LCD_DisplayString
+ .text.Tick4    0x000002a4       0xb4 main.o
+                0x000002a4                Tick4
  .text.SPI_MasterInit
-                0x00000370        0xa main.o
-                0x00000370                SPI_MasterInit
+                0x00000358        0xa main.o
+                0x00000358                SPI_MasterInit
  .text.SPI_MasterTransmit
-                0x0000037a        0xa main.o
-                0x0000037a                SPI_MasterTransmit
- .text.Tick     0x00000384       0x2c main.o
-                0x00000384                Tick
+                0x00000362        0xa main.o
+                0x00000362                SPI_MasterTransmit
+ .text.Tick     0x0000036c       0x38 main.o
+                0x0000036c                Tick
  .text.SPI_ServantInit
-                0x000003b0        0x8 main.o
-                0x000003b0                SPI_ServantInit
+                0x000003a4        0x8 main.o
+                0x000003a4                SPI_ServantInit
  .text.SPI_ServantReceive
-                0x000003b8        0xa main.o
-                0x000003b8                SPI_ServantReceive
- .text.Tick2    0x000003c2       0x2a main.o
-                0x000003c2                Tick2
+                0x000003ac        0xa main.o
+                0x000003ac                SPI_ServantReceive
  .text.__vector_19
-                0x000003ec       0x52 main.o
-                0x000003ec                __vector_19
+                0x000003b6       0x5e main.o
+                0x000003b6                __vector_19
  .text.GetKeypadKey
-                0x0000043e       0x9c main.o
-                0x0000043e                GetKeypadKey
- .text.main     0x000004da      0x180 main.o
-                0x000004da                main
+                0x00000414       0x9c main.o
+                0x00000414                GetKeypadKey
+ .text.main     0x000004b0      0x180 main.o
+                0x000004b0                main
  .text.keyAssign
-                0x0000065a       0xc8 main.o
-                0x0000065a                keyAssign
+                0x00000630       0xc8 main.o
+                0x00000630                keyAssign
  .text.slaveData
-                0x00000722       0x24 main.o
-                0x00000722                slaveData
- .text.Tick3    0x00000746       0x36 main.o
-                0x00000746                Tick3
+                0x000006f8       0x30 main.o
+                0x000006f8                slaveData
+ .text.Tick3    0x00000728       0x3c main.o
+                0x00000728                Tick3
+ .text.libgcc.div
+                0x00000764       0x18 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_udivmodqi4.o)
+                0x00000764                __udivmodqi4
  .text.libgcc   0x0000077c       0x12 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_tablejump2.o)
                 0x0000077c                __tablejump2__
  .text.avr-libc
@@ -448,7 +468,7 @@ END GROUP
  *(.fini0)
                 0x000007a8                _etext = .
 
-.data           0x00800100       0x26 load address 0x000007a8
+.data           0x00800100       0x2c load address 0x000007a8
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -461,62 +481,65 @@ END GROUP
  .data.message_1
                 0x0080010d        0x9 main.o
                 0x0080010d                message_1
- .data.sizes    0x00800116        0x4 main.o
-                0x00800116                sizes
+ .data.speeds   0x00800116        0x6 main.o
+                0x00800116                speeds
+ .data.sizes    0x0080011c        0x4 main.o
+                0x0080011c                sizes
  .data._avr_timer_M
-                0x0080011a        0x4 main.o
-                0x0080011a                _avr_timer_M
+                0x00800120        0x4 main.o
+                0x00800120                _avr_timer_M
  *(.gnu.linkonce.d*)
  *(.rodata)
- .rodata        0x0080011e        0x8 main.o
+ .rodata        0x00800124        0x8 main.o
  *(.rodata*)
  *(.gnu.linkonce.r*)
-                0x00800126                . = ALIGN (0x2)
-                0x00800126                _edata = .
-                0x00800126                PROVIDE (__data_end, .)
+                0x0080012c                . = ALIGN (0x2)
+                0x0080012c                _edata = .
+                0x0080012c                PROVIDE (__data_end, .)
 
-.bss            0x00800126       0x3f
-                0x00800126                PROVIDE (__bss_start, .)
+.bss            0x0080012c       0x40
+                0x0080012c                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
- .bss.task4.2265
-                0x00800126        0xb main.o
- .bss.task3.2264
-                0x00800131        0xb main.o
- .bss.task2.2263
-                0x0080013c        0xb main.o
- .bss.task1.2262
-                0x00800147        0xb main.o
+ .bss.task4.2266
+                0x0080012c        0xb main.o
+ .bss.task3.2265
+                0x00800137        0xb main.o
+ .bss.task2.2264
+                0x00800142        0xb main.o
+ .bss.task1.2263
+                0x0080014d        0xb main.o
  .bss._avr_timer_cntcurr
-                0x00800152        0x4 main.o
-                0x00800152                _avr_timer_cntcurr
+                0x00800158        0x4 main.o
+                0x00800158                _avr_timer_cntcurr
  .bss.TimerFlag
-                0x00800156        0x1 main.o
-                0x00800156                TimerFlag
+                0x0080015c        0x1 main.o
+                0x0080015c                TimerFlag
  *(COMMON)
- COMMON         0x00800157        0xe main.o
-                0x00800157                maskLow
-                0x00800158                p_size
-                0x00800159                iter
-                0x0080015b                pattern
-                0x0080015c                receivedData
-                0x0080015d                t_count
-                0x0080015e                data
-                0x0080015f                key
-                0x00800160                speed
-                0x00800161                t_max
-                0x00800162                slave
-                0x00800163                maskUp
-                0x00800164                master
-                0x00800165                PROVIDE (__bss_end, .)
+ COMMON         0x0080015d        0xf main.o
+                0x0080015d                maskLow
+                0x0080015e                p_size
+                0x0080015f                iter
+                0x00800161                pattern
+                0x00800162                receivedData
+                0x00800163                t_count
+                0x00800164                data
+                0x00800165                key
+                0x00800166                trigger
+                0x00800167                speed
+                0x00800168                t_max
+                0x00800169                slave
+                0x0080016a                maskUp
+                0x0080016b                master
+                0x0080016c                PROVIDE (__bss_end, .)
                 0x000007a8                __data_load_start = LOADADDR (.data)
-                0x000007ce                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x000007d4                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800165        0x0
+.noinit         0x0080016c        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x00800165                _end = .
+                0x0080016c                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
@@ -589,34 +612,34 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x1298
+.debug_info     0x00000000     0x12a2
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x792 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega1284/avr51/crtatmega1284.o
- .debug_info    0x00000792      0xb06 main.o
+ .debug_info    0x00000792      0xb10 main.o
 
-.debug_abbrev   0x00000000      0xa28
+.debug_abbrev   0x00000000      0xa44
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x729 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega1284/avr51/crtatmega1284.o
- .debug_abbrev  0x00000729      0x2ff main.o
+ .debug_abbrev  0x00000729      0x31b main.o
 
-.debug_line     0x00000000      0xa22
+.debug_line     0x00000000      0xa0c
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x169 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega1284/avr51/crtatmega1284.o
- .debug_line    0x00000169      0x8b9 main.o
+ .debug_line    0x00000169      0x8a3 main.o
 
-.debug_frame    0x00000000      0x2bc
+.debug_frame    0x00000000      0x2ac
  *(.debug_frame)
- .debug_frame   0x00000000      0x2bc main.o
+ .debug_frame   0x00000000      0x2ac main.o
 
-.debug_str      0x00000000      0x6db
+.debug_str      0x00000000      0x6e4
  *(.debug_str)
  .debug_str     0x00000000      0x296 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega1284/avr51/crtatmega1284.o
- .debug_str     0x00000296      0x445 main.o
-                                0x490 (size before relaxing)
+ .debug_str     0x00000296      0x44e main.o
+                                0x499 (size before relaxing)
 
-.debug_loc      0x00000000      0x7f7
+.debug_loc      0x00000000      0x795
  *(.debug_loc)
- .debug_loc     0x00000000      0x7f7 main.o
+ .debug_loc     0x00000000      0x795 main.o
 
 .debug_macinfo
  *(.debug_macinfo)

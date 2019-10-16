@@ -27,7 +27,7 @@
 enum States{ START, LISTEN, SEND };
 enum States2{ START2, RECIEVE };
 enum States3{ START3, ON};
-char data, key, master, maskUp, maskLow;
+char data, key, master, maskUp, maskLow, trigger;
 char pattern, p_size, speed, slave, t_count, t_max; 
 int iter;
 
@@ -36,7 +36,7 @@ char p2[2] = {0xAA, 0x55};
 char p3[14] = {128,64,32,16,8,4,2,1,2,4,8,16,32,64};
 char p4[18] = {0,1,3,7,15,31,63,127,255,127,63,31,15,7,5,3,1,0};        
 
-char *paterns[4] = {p1,p2,p3,p4};   
+char *patterns[4] = {p1,p2,p3,p4};   
 char sizes[4] = {2,2,14,17}; 
 char speeds[] = {40,20,10,5,2,1};
     
@@ -52,6 +52,7 @@ int Tick(int state){
     
     switch(state){
         case START:
+        trigger = 0;
         break;
         case LISTEN:
         break;
@@ -83,7 +84,8 @@ int Tick2(int state){
         break;
         case RECIEVE:
             if(!master){
-                PORTA = SPI_ServantReceive();//receivedData;
+                //data = SPI_ServantReceive();//receivedData;
+                data = receivedData;
                 //PORTA = ( (PORTA & ~mask) | ( (receivedData) & mask) );
             }            
         break;
@@ -112,6 +114,7 @@ int Tick3(int state){
                 key = GetKeypadKey();
                 if(key != '\0' ){
                     keyAssign();
+                    trigger = 0xFF;
                  }
             }else  slaveData();           
             /*if(!master){                                   
@@ -142,13 +145,23 @@ int Tick4(int state){
             speed=0; 
             slave = 0; 
             t_count=0 ;
-            t_max=0;
+            t_max=1;
             iter = 0;
-            if(master) key = 10;
+            if(master){
+                message_1[6] = (pattern +'1');
+                message_2[5] = (speed +'1');
+                message_3[4] = (slave +'0');
+                char line_1[17] = {};
+                strcat(line_1, message_1);
+                strcat(line_1, message_2);
+                                    
+                LCD_DisplayString( 1, (unsigned char*)line_1);
+            }
         break;
         case ON:
+        /*
             if(t_count == t_max){
-                if(master && (key != '\0' )) {
+                if(master && (key != '\0' ) ) {
                     message_1[6] = (pattern +'1');
                     message_2[5] = (speed +'1');
                     message_3[4] = (slave +'0');
@@ -159,8 +172,15 @@ int Tick4(int state){
                     LCD_DisplayString( 1, (unsigned char*)line_1);
                     //LCD_DisplayString( 17, (unsigned char*)message_2);
                     t_count = 0;
+                    trigger = 0;
+                }else{
+                    PORTA = data;//patterns[pattern][iter];
+                    ++iter;
+                    if(iter >= p_size) iter = 0;
                 }
-            }else ++t_count;                
+            }else ++t_count;    
+                    */
+                           if(!master) PORTA = data;     
         break;
         default:
         break;
@@ -195,7 +215,7 @@ int main(void)
     maskUp = 0xF0;
     maskLow = 0x0F;
     
-    unsigned long t1 = 6;
+    unsigned long t1 = 3;
     unsigned long t2 = 2;
     unsigned long t3 = 1;
     unsigned long t4 = 1;
@@ -309,5 +329,6 @@ void keyAssign(){
 void slaveData(){ 
     pattern = (data >> 4);
     speed = (data & 0x0F);
-    p_size = sizes[data];
+    t_max = speeds[speed];
+    p_size = sizes[pattern];
 }

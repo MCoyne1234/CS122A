@@ -19,7 +19,7 @@ void SPI_MasterInit(void){
 	SPCR = (1<<SPE) | (1<<MSTR) | (1<<SPR0);
 }
 
-void SPI_MasterTransmit(unsigned char cData){
+void SPI_MasterTransmit(char cData){
 	// Start transmission 
 	SPDR = cData;
 	
@@ -38,14 +38,13 @@ void SPI_ServantInit(void){
 char SPI_ServantReceive(void)
 {
 /* Wait for reception complete */
-while(!(SPSR & (1<<SPIF)))
-;
+while(!(SPSR & (1<<SPIF)));
 /* Return Data Register */
 return SPDR;
 }
 
 ISR(SPI_STC_vect){
-  receivedData = SPI_ServantReceive();
+  receivedData = SPDR /SPI_ServantReceive();
 }
 
 #endif // SPI_LIBRARY

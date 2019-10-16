@@ -13,19 +13,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   4 .debug_aranges 00000038  00000000  00000000  000001b4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   000009d0  00000000  00000000  000001ec  2**0
+  5 .debug_info   000009d2  00000000  00000000  000001ec  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 000008a4  00000000  00000000  00000bbc  2**0
+  6 .debug_abbrev 000008bf  00000000  00000000  00000bbe  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000034e  00000000  00000000  00001460  2**0
+  7 .debug_line   0000033f  00000000  00000000  0000147d  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000054  00000000  00000000  000017b0  2**2
+  8 .debug_frame  00000054  00000000  00000000  000017bc  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000047d  00000000  00000000  00001804  2**0
+  9 .debug_str    0000047d  00000000  00000000  00001810  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    0000018d  00000000  00000000  00001c81  2**0
+ 10 .debug_loc    00000116  00000000  00000000  00001c8d  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000028  00000000  00000000  00001e0e  2**0
+ 11 .debug_ranges 00000028  00000000  00000000  00001da3  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -146,63 +146,52 @@ int main(void)
   b4:	78 94       	sei
     spi_init_master();                  //Initialize SPI Master
   b6:	f3 df       	rcall	.-26     	; 0x9e <spi_init_master>
-    DDRA = 0xFF; PORTA = 0x00;
+    DDRA = 0xFF; PORTA = 0xFF;
   b8:	8f ef       	ldi	r24, 0xFF	; 255
   ba:	81 b9       	out	0x01, r24	; 1
-  bc:	12 b8       	out	0x02, r1	; 2
+  bc:	82 b9       	out	0x02, r24	; 2
     DDRD |= 0x01;                       //PD0 as Output
   be:	50 9a       	sbi	0x0a, 0	; 10
+    
+    unsigned char data;                 //Received data stored here
     uint8_t x = 0;                      //Counter value which is sent
-    char doot = 0x10;
+    char doot = 0xFF;
+  c0:	cf ef       	ldi	r28, 0xFF	; 255
     
     while(1)
     {
-        if( doot == 0x10 ) doot = 0x00;
-  c0:	c0 e0       	ldi	r28, 0x00	; 0
-  c2:	10 e0       	ldi	r17, 0x00	; 0
-        else doot = 0x10;
-  c4:	d0 e1       	ldi	r29, 0x10	; 16
-  c6:	03 c0       	rjmp	.+6      	; 0xce <main+0x1a>
-  c8:	cd 2f       	mov	r28, r29
-  ca:	01 c0       	rjmp	.+2      	; 0xce <main+0x1a>
-    uint8_t x = 0;                      //Counter value which is sent
-    char doot = 0x10;
-    
-    while(1)
-    {
-        if( doot == 0x10 ) doot = 0x00;
-  cc:	c1 2f       	mov	r28, r17
-        else doot = 0x10;
+        if( doot == 0xFF ) doot = 0x00;
+  c2:	d1 e0       	ldi	r29, 0x01	; 1
+  c4:	10 e0       	ldi	r17, 0x00	; 0
+  c6:	8d 2f       	mov	r24, r29
+  c8:	cf 3f       	cpi	r28, 0xFF	; 255
+  ca:	09 f4       	brne	.+2      	; 0xce <main+0x1a>
+  cc:	81 2f       	mov	r24, r17
+  ce:	c8 2f       	mov	r28, r24
+  d0:	c1 95       	neg	r28
+        else doot = 0xFF;
         PORTA = doot;
-  ce:	c2 b9       	out	0x02, r28	; 2
+  d2:	c2 b9       	out	0x02, r28	; 2
         data = 0x00;                    //Reset ACK in "data"
         data = spi_tranceiver(doot);     //Send "x", receive ACK in "data"
-  d0:	8c 2f       	mov	r24, r28
-  d2:	ea df       	rcall	.-44     	; 0xa8 <spi_tranceiver>
+  d4:	8c 2f       	mov	r24, r28
+  d6:	e8 df       	rcall	.-48     	; 0xa8 <spi_tranceiver>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-  d4:	2f ef       	ldi	r18, 0xFF	; 255
-  d6:	89 e6       	ldi	r24, 0x69	; 105
-  d8:	98 e1       	ldi	r25, 0x18	; 24
-  da:	21 50       	subi	r18, 0x01	; 1
-  dc:	80 40       	sbci	r24, 0x00	; 0
-  de:	90 40       	sbci	r25, 0x00	; 0
-  e0:	e1 f7       	brne	.-8      	; 0xda <main+0x26>
-  e2:	00 c0       	rjmp	.+0      	; 0xe4 <main+0x30>
-  e4:	00 00       	nop
-    uint8_t x = 0;                      //Counter value which is sent
-    char doot = 0x10;
-    
-    while(1)
-    {
-        if( doot == 0x10 ) doot = 0x00;
-  e6:	c0 31       	cpi	r28, 0x10	; 16
-  e8:	79 f7       	brne	.-34     	; 0xc8 <main+0x14>
-  ea:	f0 cf       	rjmp	.-32     	; 0xcc <main+0x18>
+  d8:	2f ef       	ldi	r18, 0xFF	; 255
+  da:	82 e5       	ldi	r24, 0x52	; 82
+  dc:	97 e0       	ldi	r25, 0x07	; 7
+  de:	21 50       	subi	r18, 0x01	; 1
+  e0:	80 40       	sbci	r24, 0x00	; 0
+  e2:	90 40       	sbci	r25, 0x00	; 0
+  e4:	e1 f7       	brne	.-8      	; 0xde <main+0x2a>
+  e6:	00 c0       	rjmp	.+0      	; 0xe8 <main+0x34>
+  e8:	00 00       	nop
+  ea:	ed cf       	rjmp	.-38     	; 0xc6 <main+0x12>
 
 000000ec <_exit>:
   ec:	f8 94       	cli
