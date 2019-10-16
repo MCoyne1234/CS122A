@@ -51,8 +51,10 @@ int Tick2(int state){
             iter = 0;
         break;
         case RECEIVE:
-                data = SPI_ServantReceive();
-                slaveData();
+                 //if( (PINB & 0x10) == 0){
+                    data = SPI_ServantReceive();
+                    slaveData();
+                // }                    
                 //PORTA = data; 
                 // PORTA = ( (PORTA & ~mask) | ( (receivedData) & mask) );         
         break;

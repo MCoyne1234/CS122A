@@ -612,10 +612,11 @@ int Tick2(int state){
  414:	07 c0       	rjmp	.+14     	; 0x424 <__LOCK_REGION_LENGTH__+0x24>
         break;
         case RECEIVE:
-                data = SPI_ServantReceive();
+                 //if( (PINB & 0x10) == 0){
+                    data = SPI_ServantReceive();
  416:	08 df       	rcall	.-496    	; 0x228 <SPI_ServantReceive>
  418:	80 93 5c 01 	sts	0x015C, r24	; 0x80015c <data>
-                slaveData();
+                    slaveData();
  41c:	c9 df       	rcall	.-110    	; 0x3b0 <slaveData>
  41e:	04 c0       	rjmp	.+8      	; 0x428 <__LOCK_REGION_LENGTH__+0x28>
  420:	89 2b       	or	r24, r25

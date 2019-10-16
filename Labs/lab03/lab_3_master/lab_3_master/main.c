@@ -20,7 +20,7 @@
 enum States{ START, LISTEN, SEND };
 enum States3{ START3, ON};
 unsigned char data, key, master, maskUp, maskLow, trigger;
-unsigned char pattern, p_size, speed, slave, t_count, t_max; 
+unsigned char pattern, p_size, speed, slave, sN, t_count, t_max; 
 int iter;
 
 char p1[2] = {0xF0, 0x0F};
@@ -33,7 +33,7 @@ char sizes[4] = {2,2,14,17};
 char speeds[] = {40,20,10,5,2,1};
     
 char message_1[9] = "Ptrn: 0 ";
-char message_2[7] = "Spd: 0  ";
+char message_2[9] = "Spd: 0  ";
 char message_3[6] = "uC: 0";
 
 
@@ -50,6 +50,8 @@ int Tick(int state){
         break;
         case SEND:    
             //if(trigger) 
+             PORTB &= ~sN;
+             PORTB |= ~sN;
             SPI_MasterTransmit(data);       
         break;
         default:
@@ -109,7 +111,7 @@ int Tick4(int state){
             pattern =0; 
             p_size = 0; 
             speed=0; 
-            slave = 0; 
+            slave = 1; 
             t_count=0 ;
             t_max=1;
             iter = 0;
@@ -130,7 +132,7 @@ int Tick4(int state){
                 if( trigger ) {
                     message_1[6] = (pattern +'1');
                     message_2[5] = (speed +'1');
-                    message_3[4] = (slave +'1');
+                    message_3[4] = (slave +'0');
                     char line_1[33] = {};
                     strcat(line_1, message_1);
                     strcat(line_1, message_2);
@@ -205,6 +207,7 @@ int main(void)
     else master = 0x00;
     
     SPI_MasterInit();
+    DDRB = DDRB | 0x0F;
     
     unsigned short i = 0; // Scheduler for-loop iterator
     while(1){
@@ -264,13 +267,16 @@ void keyAssign(){
             speed = 5;
         break;
         case '7':
-            slave = 0;
+            slave = 1;
+            sN = 16;
         break;
         case '8':
-            slave = 1;
+            slave = 2;
+            sN = 8;
         break;
         case '9':
-            slave = 2;
+            slave = 3;
+            sN = 4;
         break;
         default:
         break;
