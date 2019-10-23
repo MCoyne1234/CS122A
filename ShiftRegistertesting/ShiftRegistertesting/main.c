@@ -1,8 +1,8 @@
 #include <avr/io.h>
 #include <stdlib.h>
+#include "shift_reg.h"
 
-
-
+/*
 void transmit_data(unsigned char data) {
 	// SER (PB0), RCLK (PB1), SRCLK (PB2), SRCLR (PB3)
 	// when ready to begin transmitting, set RCLK (PB1) low and SRCLR (PB3) high
@@ -11,16 +11,17 @@ void transmit_data(unsigned char data) {
 	// bit being transfered (1 or 0), then set SRCLK (PB2) high
 	unsigned char i = 0;
 	while(i < 8) {
-		PORTB = 0x08;
+		PORTB = 0x08; // SRCLR
 		PORTB |= ((data >> i) & 0x01);
-		PORTB |= 0x04;
+		PORTB |= 0x04; // SRCLK
 		i++;
 	}
 	
-	PORTB |= 0x02;
+	PORTB |= 0x02; //RCLR
 	PORTB = 0x00;
 	
 }
+*/
 
 int main(void) {
 	// Initialize ports
@@ -29,6 +30,6 @@ int main(void) {
 	DDRD = 0xFF; PORTD = 0x00; // LCD data lines
 	DDRA = 0xFF; PORTA = 0x00; // LCD control lines
 	
-	char D = 0xF0;
-	transmit_data(D);
+	char data = 0xAF;
+	transmit_data(data);
 }
