@@ -10,8 +10,8 @@ d:/atmel/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\li
 Allocating common symbols
 Common symbol       size              file
 
+Button              0x1               main.o
 state               0x1               main.o
-A2                  0x1               main.o
 state2              0x1               main.o
 
 Discarded input sections
@@ -200,7 +200,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x3e8
+.text           0x00000000      0x41e
  *(.vectors)
  .vectors       0x00000000       0x8c D:/Atmel/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega1284/avr51/crtatmega1284.o
                 0x00000000                __vector_default
@@ -321,17 +321,17 @@ END GROUP
  .text.__vector_13
                 0x000001b0       0x78 main.o
                 0x000001b0                __vector_13
- .text.Tick     0x00000228       0xc8 main.o
+ .text.Tick     0x00000228       0xd8 main.o
                 0x00000228                Tick
- .text.Tick2    0x000002f0       0x8c main.o
-                0x000002f0                Tick2
- .text.main     0x0000037c       0x68 main.o
-                0x0000037c                main
-                0x000003e4                . = ALIGN (0x2)
+ .text.Tick2    0x00000300       0x8c main.o
+                0x00000300                Tick2
+ .text.main     0x0000038c       0x8e main.o
+                0x0000038c                main
+                0x0000041a                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000003e4        0x0 d:/atmel/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
-                0x000003e4                _exit
-                0x000003e4                exit
+ .fini9         0x0000041a        0x0 d:/atmel/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
+                0x0000041a                _exit
+                0x0000041a                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -350,11 +350,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000003e4        0x4 d:/atmel/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
+ .fini0         0x0000041a        0x4 d:/atmel/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
  *(.fini0)
-                0x000003e8                _etext = .
+                0x0000041e                _etext = .
 
-.data           0x00800100        0x4 load address 0x000003e8
+.data           0x00800100        0x4 load address 0x0000041e
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -369,36 +369,38 @@ END GROUP
                 0x00800104                _edata = .
                 0x00800104                PROVIDE (__data_end, .)
 
-.bss            0x00800104        0xe
+.bss            0x00800104       0x10
                 0x00800104                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
  .bss.score     0x00800104        0x2 main.o
                 0x00800104                score
- .bss.light2    0x00800106        0x2 main.o
-                0x00800106                light2
- .bss.light1    0x00800108        0x2 main.o
-                0x00800108                light1
+ .bss.pressed   0x00800106        0x2 main.o
+                0x00800106                pressed
+ .bss.light2    0x00800108        0x2 main.o
+                0x00800108                light2
+ .bss.light1    0x0080010a        0x2 main.o
+                0x0080010a                light1
  .bss._avr_timer_cntcurr
-                0x0080010a        0x4 main.o
-                0x0080010a                _avr_timer_cntcurr
+                0x0080010c        0x4 main.o
+                0x0080010c                _avr_timer_cntcurr
  .bss.TimerFlag
-                0x0080010e        0x1 main.o
-                0x0080010e                TimerFlag
+                0x00800110        0x1 main.o
+                0x00800110                TimerFlag
  *(COMMON)
- COMMON         0x0080010f        0x3 main.o
-                0x0080010f                state
-                0x00800110                A2
-                0x00800111                state2
-                0x00800112                PROVIDE (__bss_end, .)
-                0x000003e8                __data_load_start = LOADADDR (.data)
-                0x000003ec                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x00800111        0x3 main.o
+                0x00800111                Button
+                0x00800112                state
+                0x00800113                state2
+                0x00800114                PROVIDE (__bss_end, .)
+                0x0000041e                __data_load_start = LOADADDR (.data)
+                0x00000422                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800112        0x0
+.noinit         0x00800114        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x00800112                _end = .
+                0x00800114                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
@@ -471,30 +473,30 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0xcc9
+.debug_info     0x00000000      0xcdc
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x792 D:/Atmel/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega1284/avr51/crtatmega1284.o
- .debug_info    0x00000792      0x537 main.o
+ .debug_info    0x00000792      0x54a main.o
 
-.debug_abbrev   0x00000000      0x8c0
+.debug_abbrev   0x00000000      0x8af
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x729 D:/Atmel/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega1284/avr51/crtatmega1284.o
- .debug_abbrev  0x00000729      0x197 main.o
+ .debug_abbrev  0x00000729      0x186 main.o
 
-.debug_line     0x00000000      0x5a2
+.debug_line     0x00000000      0x5bc
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x169 D:/Atmel/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega1284/avr51/crtatmega1284.o
- .debug_line    0x00000169      0x439 main.o
+ .debug_line    0x00000169      0x453 main.o
 
 .debug_frame    0x00000000      0x138
  *(.debug_frame)
  .debug_frame   0x00000000      0x138 main.o
 
-.debug_str      0x00000000      0x4f6
+.debug_str      0x00000000      0x505
  *(.debug_str)
  .debug_str     0x00000000      0x296 D:/Atmel/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega1284/avr51/crtatmega1284.o
- .debug_str     0x00000296      0x260 main.o
-                                0x2a6 (size before relaxing)
+ .debug_str     0x00000296      0x26f main.o
+                                0x2b5 (size before relaxing)
 
 .debug_loc      0x00000000      0x27d
  *(.debug_loc)

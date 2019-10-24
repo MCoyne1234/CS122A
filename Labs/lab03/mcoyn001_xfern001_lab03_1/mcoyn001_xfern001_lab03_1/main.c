@@ -5,12 +5,13 @@
  * Author : Administrator
  * 
  *    Partner(s) Name & E-mail: Matthew Coyne mcoyn001@ucr.edu
+								Xander Fernald xfern001@ucr.edu
  *    Lab Section: 021
  *    Assignment: Lab #3  Exercise #1 
  *    Exercise Description: SPI Lab: LCD KEYPAD LCD.
  *    
  *    I acknowledge all content contained herein, excluding template 
- *     or example code, is my own original work.
+ *    or example code, is my own original work.
  */
 
 #include <avr/io.h>

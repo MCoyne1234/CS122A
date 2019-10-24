@@ -11,11 +11,11 @@ enum States2{START2, ON1, ON2, OFF1, OFF2} state2;
 int light1 = 0x00;
 int light2 = 0x00;
 
-unsigned char A2;
+unsigned char Button;
+unsigned int pressed = 0;
 int score = 0;
 
 void Tick() {
-	A2 = ~PINA & 0x40;
 	switch(state) { //state transitions
 		case START:
 			state = B0;
@@ -38,7 +38,7 @@ void Tick() {
 		case B0:
 			//PORTB = ((PORTB & 0x08) | 0x01);
 			light1 = 0x01;
-			if (!A2) {
+			if (pressed) {
 				if (score > 0) {
 					score--;
 				}
@@ -47,7 +47,7 @@ void Tick() {
 		case B1:
 			//PORTB = ((PORTB & 0x08) | 0x02);
 			light1 = 0x02;
-			if (!A2) {
+			if (pressed) {
 				if (score < 9) {
 					score++;
 				}
@@ -56,7 +56,7 @@ void Tick() {
 		case B2:
 			//PORTB = ((PORTB & 0x08) | 0x04);
 			light1 = 0x04;
-			if (!A2) {
+			if (pressed) {
 				if (score > 0) {
 					score--;
 				}
@@ -131,8 +131,14 @@ int main(void) {
 		LCD_ClearScreen();
 		LCD_Cursor(1);
 		LCD_WriteData(48 + score);
-		while(!TimerFlag);
-		TimerFlag = 0;		
+		pressed = 0;
+		while(!TimerFlag) {
+			Button = (~PINA & 0x04);
+			if (Button) {
+				pressed = 1;
+			}
+		}
+		TimerFlag = 0;	
     }
 }
 
